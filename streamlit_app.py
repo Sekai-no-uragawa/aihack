@@ -15,6 +15,7 @@ morph = pymorphy2.MorphAnalyzer()
 with st.sidebar.expander("Info"):
     """
     Team fit_predict
+
     Another text
     """
 
@@ -50,8 +51,9 @@ text_preproc = ' '.join(preprocessing(title))
 model = fasttext.load_model(filename)
 ans = model.predict(text_preproc, k=5)[0]
 
-st.write('1.', i[0][9:])
-st.write('2.', i[1][9:])
-st.write('3.', i[2][9:])
-st.write('4.', i[3][9:])
-st.write('5.', i[4][9:])
+if ans:
+    st.write('1.', ans[0][9:])
+    st.write('2.', ans[1][9:])
+    st.write('3.', ans[2][9:])
+    st.write('4.', ans[3][9:])
+    st.write('5.', ans[4][9:])
