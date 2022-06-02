@@ -1,24 +1,57 @@
 import streamlit as st
 import urllib.request
-from gensim.utils import simple_preprocess
 import fasttext
 
-with st.sidebar.expander("Project Goals"):
+from nltk.tokenize import word_tokenize
+import nltk
+from nltk.corpus import stopwords
+import pymorphy2
+import re
+
+nltk.download('punkt')
+nltk.download('stopwords')
+morph = pymorphy2.MorphAnalyzer()
+
+with st.sidebar.expander("Info"):
     """
-    1. Tyt chtoto написано
-    
+    Team fit_predict
+    Another text
     """
 
 title = st.text_input('Ввести описание')
-st.write('И оно окажется тут ->', title)
+st.write('И оно окажется тут:')
+st.write(title)
+st.write('А вот и предсказание (топ-5 по вероятности)')
 
-url = 'https://github.com/Sekai-no-uragawa/aihack/releases/download/aihack/FastText_baseline.fasttext_model'
+
+url = 'https://github.com/Sekai-no-uragawa/aihack/releases/download/v1.0.1/FastText_top5.fasttext_model'
 filename = url.split('/')[-1]
 
 urllib.request.urlretrieve(url, filename)
 
+def preprocessing(x):
+    text = x
+    if text != None:
+        tock_dirt = word_tokenize(text, language="russian")
+        morph_lst = []
+        tock = []
+        for word in tock_dirt:
+            word = re.sub("[^A-Za-zА-Яа-я]", " ", word)
+            for i in word.split():
+                if i != []:
+                    if i not in stopwords.words("russian"):
+                        morph_lst.append(morph.parse(i)[0].normal_form)
+        return morph_lst
+    else:
+        return []
 
+text_preproc = ' '.join(preprocessing(title))
 
 model = fasttext.load_model(filename)
-text_preproc = ' '.join(simple_preprocess(title))
-model.predict(text_preproc)[0][0][9:]
+ans = model.predict(text_preproc, k=5)[0]
+
+st.write('1.', i[0][9:])
+st.write('2.', i[1][9:])
+st.write('3.', i[2][9:])
+st.write('4.', i[3][9:])
+st.write('5.', i[4][9:])
