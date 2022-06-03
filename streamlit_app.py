@@ -70,9 +70,8 @@ def main():
         ans = model.predict(text_preproc, k=5)[0]
 
         st.write('А вот и предсказание (топ-5 по вероятности)')
-        cat = []
-        for i in ans:
-            cat.append(i.replace('_', ''))
+        
+        cat = [i[9:].replace('_', '') for i in ans]
         
         classifier = load_classifier()
         description = classifier[classifier.TNVED.isin(cat)].FULL_TEXT.tolist()
