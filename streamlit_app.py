@@ -48,6 +48,7 @@ def main():
         page_title="ТН ВЭД ЕАЭС",
         page_icon="📦",
     )
+    st.title("Определение кода товара ТН ВЭД ЕАЭС")
     
     with st.sidebar.expander("Info"):
         """
@@ -59,9 +60,23 @@ def main():
     title = st.text_area(
             'Ввести описание товара: ',
         )
-    st.write('И оно окажется тут:')
-    st.write(title)
-    pred_button = st.button('Get Predict!')    
+
+    c1, c2, c3 = st.columns([1, 6, 1])
+    with c1:
+        pred_button = st.button('Get Predict!')    
+    
+    with c3:    
+        uploaded_file = st.file_uploader(
+        "",
+        key="1",
+        help="Drop file here",
+        )
+    
+    if uploaded_file is not None:
+        file_container = st.expander("Check your uploaded .csv")
+        shows = pd.read_csv(uploaded_file)
+        uploaded_file.seek(0)
+        file_container.write(shows)
 
     if pred_button:
         filename = load_model()
