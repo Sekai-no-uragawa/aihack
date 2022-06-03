@@ -19,8 +19,7 @@ def load_model():
     url = 'https://github.com/Sekai-no-uragawa/aihack/releases/download/v1.0.1/FastText_top5.fasttext_model'
     filename = url.split('/')[-1]
     urllib.request.urlretrieve(url, filename)
-    model = fasttext.load_model(filename)
-    return model
+    return filename
 
 def preprocessing(x):
     get_nltk()
@@ -61,10 +60,11 @@ def main():
     pred_button = st.button('Get Predict!')    
 
     if pred_button:
-        model = load_model()
+        filename = load_model()
+        model = fasttext.load_model(filename)
         text_preproc = ' '.join(preprocessing(title))
         ans = model.predict(text_preproc, k=5)[0]
-        
+
         st.write('А вот и предсказание (топ-5 по вероятности)')
         if ans:
             st.write('1.', ans[0][9:])
