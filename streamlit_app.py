@@ -76,13 +76,13 @@ def main():
     with c20:
         st.title("Определение кода товара ТН ВЭД ЕАЭС")
         st.write('Супер проект ...')
-        c1, c2, c3 = st.columns([1, 4, 1])
+        #c1, c2, c3 = st.columns([1, 4, 1])
         title = st.text_area(
                 'Ввести описание товара: ',
             )
 
         #c1, c2, c3 = st.columns([1, 2, 1])
-        col1, col2, col3 , col4, col5 = st.beta_columns(5)
+        col1, col5 = st.beta_columns([4,1])
         with col5:
             pred_button = st.button('Get Predict!')    
         
