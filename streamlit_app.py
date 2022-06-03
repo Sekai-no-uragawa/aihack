@@ -82,7 +82,7 @@ def main():
             )
 
         #c1, c2, c3 = st.columns([1, 2, 1])
-        col1, col5 = st.beta_columns([4,1])
+        col1, col5 = st.columns([4,1])
         with col5:
             pred_button = st.button('Get Predict!')    
         
