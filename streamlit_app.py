@@ -11,6 +11,7 @@ import re
 st.set_page_config(
     page_title="ТН ВЭД ЕАЭС",
     page_icon="📦",
+    layout="wide",
 )
 
 def _max_width_():
