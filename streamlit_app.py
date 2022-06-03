@@ -8,6 +8,10 @@ from nltk.corpus import stopwords
 import pymorphy2
 import re
 
+st.set_page_config(
+    page_title="ТН ВЭД ЕАЭС",
+    page_icon="📦",
+)
 
 def _max_width_():
     max_width_str = f"max-width: 1400px;"
@@ -58,10 +62,7 @@ def preprocessing(x):
         return []
 
 def main():
-    st.set_page_config(
-        page_title="ТН ВЭД ЕАЭС",
-        page_icon="📦",
-    )
+    
     st.title("Определение кода товара ТН ВЭД ЕАЭС")
     
     with st.sidebar.expander("Info"):
