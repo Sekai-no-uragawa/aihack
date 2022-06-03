@@ -9,6 +9,20 @@ import pymorphy2
 import re
 
 
+def _max_width_():
+    max_width_str = f"max-width: 1400px;"
+    st.markdown(
+        f"""
+    <style>
+    .reportview-container .main .block-container{{
+        {max_width_str}
+    }}
+    </style>    
+    """,
+        unsafe_allow_html=True,
+    )
+_max_width_()
+
 @st.cache
 def get_nltk():
     nltk.download('punkt')
