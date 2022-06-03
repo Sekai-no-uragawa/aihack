@@ -61,7 +61,7 @@ def main():
             'Ввести описание товара: ',
         )
 
-    c1, c2, c3 = st.columns([1, 6, 1])
+    c1, c2, c3 = st.columns([1, 2, 1])
     with c1:
         pred_button = st.button('Get Predict!')    
     
