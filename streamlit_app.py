@@ -76,6 +76,8 @@ def main():
         
         classifier = load_classifier()
         description = classifier[classifier.TNVED.isin(cat)].FULL_TEXT.tolist()
+        while len(description) < 5:
+            description.append('unknown')
         
         st.write('1.', ans[0][9:], '- описание:', description[0])
         st.write('2.', ans[1][9:], '- описание:', description[1])
@@ -84,4 +86,4 @@ def main():
         st.write('5.', ans[4][9:], '- описание:', description[4])
 
 if __name__ == '__main__':
-    main()
+    main()  
