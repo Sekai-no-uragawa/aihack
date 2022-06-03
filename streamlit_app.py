@@ -1,7 +1,7 @@
 import streamlit as st
 import urllib.request
 import fasttext
-
+import pandas as pd
 from nltk.tokenize import word_tokenize
 import nltk
 from nltk.corpus import stopwords
@@ -20,6 +20,10 @@ def load_model():
     filename = url.split('/')[-1]
     urllib.request.urlretrieve(url, filename)
     return filename
+
+@st.cache
+def load_classifier():
+    return pd.read_excel('tnved-CIS-02.xls')
 
 def preprocessing(x):
     get_nltk()
@@ -66,12 +70,18 @@ def main():
         ans = model.predict(text_preproc, k=5)[0]
 
         st.write('А вот и предсказание (топ-5 по вероятности)')
-        if ans:
-            st.write('1.', ans[0][9:])
-            st.write('2.', ans[1][9:])
-            st.write('3.', ans[2][9:])
-            st.write('4.', ans[3][9:])
-            st.write('5.', ans[4][9:])
+        cat = []
+        for i in ans:
+            cat.append(i.replace('_', ''))
+        
+        classifier = load_classifier()
+        description = classifier[classifier.TNVED.isin(cat)].FULL_TEXT.tolist()
+        
+        st.write('1.', ans[0][9:], '- описание:', description[0])
+        st.write('2.', ans[1][9:], '- описание:', description[1])
+        st.write('3.', ans[2][9:], '- описание:', description[2])
+        st.write('4.', ans[3][9:], '- описание:', description[3])
+        st.write('5.', ans[4][9:], '- описание:', description[4])
 
 if __name__ == '__main__':
     main()
