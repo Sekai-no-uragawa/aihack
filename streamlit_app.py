@@ -8,29 +8,23 @@ from nltk.corpus import stopwords
 import pymorphy2
 import re
 
-nltk.download('punkt')
-nltk.download('stopwords')
-morph = pymorphy2.MorphAnalyzer()
 
-with st.sidebar.expander("Info"):
-    """
-    Team fit_predict
+@st.cache
+def get_nltk():
+    nltk.download('punkt')
+    nltk.download('stopwords')
 
-    Another text
-    """
-
-title = st.text_input('Ввести описание')
-st.write('И оно окажется тут:')
-st.write(title)
-st.write('А вот и предсказание (топ-5 по вероятности)')
-
-
-url = 'https://github.com/Sekai-no-uragawa/aihack/releases/download/v1.0.1/FastText_top5.fasttext_model'
-filename = url.split('/')[-1]
-
-urllib.request.urlretrieve(url, filename)
+@st.cache
+def load_model():
+    url = 'https://github.com/Sekai-no-uragawa/aihack/releases/download/v1.0.1/FastText_top5.fasttext_model'
+    filename = url.split('/')[-1]
+    urllib.request.urlretrieve(url, filename)
+    model = fasttext.load_model(filename)
+    return model
 
 def preprocessing(x):
+    get_nltk()
+    morph = pymorphy2.MorphAnalyzer()
     text = x
     if text != None:
         tock_dirt = word_tokenize(text, language="russian")
@@ -46,14 +40,38 @@ def preprocessing(x):
     else:
         return []
 
-text_preproc = ' '.join(preprocessing(title))
+def main():
+    st.set_page_config(
+        page_title="ТН ВЭД ЕАЭС",
+        page_icon="📦",
+    )
+    
+    with st.sidebar.expander("Info"):
+        """
+        Developed by team fit_predict
 
-model = fasttext.load_model(filename)
-ans = model.predict(text_preproc, k=5)[0]
+        2022
+        """
+    
+    title = st.text_area(
+            'Ввести описание товара: ',
+        )
+    st.write('И оно окажется тут:')
+    st.write(title)
+    pred_button = st.button('Get Predict!')    
 
-if ans:
-    st.write('1.', ans[0][9:])
-    st.write('2.', ans[1][9:])
-    st.write('3.', ans[2][9:])
-    st.write('4.', ans[3][9:])
-    st.write('5.', ans[4][9:])
+    if pred_button:
+        model = load_model()
+        text_preproc = ' '.join(preprocessing(title))
+        ans = model.predict(text_preproc, k=5)[0]
+        
+        st.write('А вот и предсказание (топ-5 по вероятности)')
+        if ans:
+            st.write('1.', ans[0][9:])
+            st.write('2.', ans[1][9:])
+            st.write('3.', ans[2][9:])
+            st.write('4.', ans[3][9:])
+            st.write('5.', ans[4][9:])
+
+if __name__ == '__main__':
+    main()
