@@ -64,7 +64,7 @@ def preprocessing(x):
 
 def main():
     
-    st.title("Определение кода товара ТН ВЭД ЕАЭС")
+    
     
     with st.sidebar.expander("Info"):
         """
@@ -74,13 +74,17 @@ def main():
         """
     c10, c20, c30 = st.columns([1, 4, 1])
     with c20:
+        st.title("Определение кода товара ТН ВЭД ЕАЭС")
+        st.write('Супер проект ...')
+        c1, c2, c3 = st.columns([1, 4, 1])
         title = st.text_area(
                 'Ввести описание товара: ',
             )
 
         #c1, c2, c3 = st.columns([1, 2, 1])
-        
-        pred_button = st.button('Get Predict!')    
+        col1, col2, col3 , col4, col5 = st.beta_columns(5)
+        with col5:
+            pred_button = st.button('Get Predict!')    
         
         
         uploaded_file = st.file_uploader(
