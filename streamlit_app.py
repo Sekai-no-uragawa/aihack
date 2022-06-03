@@ -62,15 +62,15 @@ def main():
         )
 
     c1, c2, c3 = st.columns([1, 2, 1])
-    with c1:
+    with c3:
         pred_button = st.button('Get Predict!')    
     
-    with c3:    
-        uploaded_file = st.file_uploader(
-        "",
-        key="1",
-        help="Drop file here",
-        )
+       
+    uploaded_file = st.file_uploader(
+    "",
+    key="1",
+    help="Drop file here",
+    )
     
     if uploaded_file is not None:
         file_container = st.expander("Check your uploaded .csv")
