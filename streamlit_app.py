@@ -134,7 +134,7 @@ def get_nltk():
 
 @st.cache
 def load_model():
-    url = 'https://github.com/Sekai-no-uragawa/aihack/releases/download/v1.0.1/FastText_top5.fasttext_model'
+    url = 'https://github.com/Sekai-no-uragawa/aihack/releases/download/v1.0.1/train_all_data_default_set.fasttext_model'
     filename = url.split('/')[-1]
     urllib.request.urlretrieve(url, filename)
     return filename
