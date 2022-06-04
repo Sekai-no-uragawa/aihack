@@ -186,7 +186,7 @@ def main():
 
         if uploaded_file is not None:
             file_container = st.expander("Check your uploaded .csv")
-            shows = pd.read_csv(uploaded_file, encoding = 'mbcs', sep=';')
+            shows = pd.read_csv(uploaded_file, sep=';')
             uploaded_file.seek(0)
             file_container.write(shows)
 
