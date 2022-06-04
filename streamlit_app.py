@@ -188,7 +188,7 @@ def main():
     # Sidebar -- Image/Title
     icon = Image.open("data/1024px-Emblema_fts_2020.png")
     st.sidebar.image(
-        icon, use_column_width=True, caption="OmicLearn " + report["omic_learn_version"]
+        icon, use_column_width=True, caption='AiHacks 2022'
     )
 
     with st.sidebar.expander("Info"):
