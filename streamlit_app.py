@@ -145,7 +145,7 @@ def load_classifier():
 
 @st.cache
 def load_code_text():
-    df_code = pd.read_csv('data/code_text.csv')
+    df_code = pd.read_csv('data/code_text.csv', dtype={'code': 'str'})
     dict_code = df_code.set_index('code').T.to_dict('list')
     return dict_code
 
