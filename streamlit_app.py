@@ -193,7 +193,9 @@ def main():
             key="1",
             help="Drop file here",
         )
-
+    
+    c100, c200, c300 = st.columns([2, 4, 2])
+    with c200:
         if uploaded_file is not None:
             file_container = st.expander("Check your uploaded .csv")
             shows = pd.read_csv(uploaded_file, sep=';')
