@@ -189,7 +189,11 @@ def main():
             shows = pd.read_csv(uploaded_file, sep=';')
             uploaded_file.seek(0)
             file_container.write(shows)
-
+            
+            filename = load_model()
+            model = fasttext.load_model(filename)
+            classifier = load_classifier()
+            
             data_to_download = description_predict_from_file(shows, model, classifier, preprocessing())
 
             CSVButton = download_button(
