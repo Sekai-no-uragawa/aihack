@@ -231,22 +231,25 @@ def main():
             filename = load_model()
             model = fasttext.load_model(filename)
             text_preproc = ' '.join(preprocessing(title))
-            ans = model.predict(text_preproc, k=5)[0]
+            ans = model.predict(text_preproc, k=5)
 
-            st.write('А вот и предсказание (топ-5 по вероятности)')
+            st.write('Возможные классификационные коды, в порядке убывания уверенности предсказания моделью')
+            for_print = []
+            for label, prob in zip(*ans):
+                for_print.append([label[9:], round(prob,3)])
+            st.write(pd.DataFrame(for_print, columns=['Код', 'Точность']))
+            # cat = [i[9:].replace('_', '') for i in ans]
             
-            cat = [i[9:].replace('_', '') for i in ans]
+            # classifier = load_classifier()
+            # description = classifier[classifier.TNVED.isin(cat)].FULL_TEXT.tolist()
+            # while len(description) < 5:
+            #     description.append('unknown')
             
-            classifier = load_classifier()
-            description = classifier[classifier.TNVED.isin(cat)].FULL_TEXT.tolist()
-            while len(description) < 5:
-                description.append('unknown')
-            
-            st.write('1.', ans[0][9:], '- описание:', description[0])
-            st.write('2.', ans[1][9:], '- описание:', description[1])
-            st.write('3.', ans[2][9:], '- описание:', description[2])
-            st.write('4.', ans[3][9:], '- описание:', description[3])
-            st.write('5.', ans[4][9:], '- описание:', description[4])
+            # st.write('1.', ans[0][9:], '- описание:', description[0])
+            # st.write('2.', ans[1][9:], '- описание:', description[1])
+            # st.write('3.', ans[2][9:], '- описание:', description[2])
+            # st.write('4.', ans[3][9:], '- описание:', description[3])
+            # st.write('5.', ans[4][9:], '- описание:', description[4])
 
 if __name__ == '__main__':
     main()  
