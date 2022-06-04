@@ -39,7 +39,7 @@ def set_png_as_page_bg(png_file):
     st.markdown(page_bg_img, unsafe_allow_html=True)
     return
 
-set_png_as_page_bg('background.png')
+
 
 def download_button(object_to_download, download_filename, button_text):
     """
@@ -172,7 +172,7 @@ def preprocessing(x):
         return []
 
 def main():
-    
+    set_png_as_page_bg('background.png')
     
     
     with st.sidebar.expander("Info"):
