@@ -18,7 +18,7 @@ def description_predict_from_file(df, model, classifier, preprocessing, count_pr
     for description in df[df.columns[0]].to_list(): #  здесь проходимся по описаниям
         text_preproc = ' '.join(preprocessing(description))
         answer = model.predict(text_preproc, k=count_pred)[0]
-        cat = [i[9:].replace('_', '') for i in ans]
+        cat = [i[9:].replace('_', '') for i in answer]
         description = classifier[classifier.TNVED.isin(cat)].FULL_TEXT.tolist()
         while len(description) < count_pred:
             description.append('unknown')
