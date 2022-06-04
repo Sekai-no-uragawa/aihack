@@ -11,6 +11,8 @@ import base64
 import uuid
 import json
 from download_description import description_predict_from_file
+from io import BytesIO
+from pyxlsb import open_workbook as open_xlsb
 
 
 st.set_page_config(
@@ -18,6 +20,18 @@ st.set_page_config(
     page_icon="📦",
     layout="wide",
 )
+
+def to_excel(df):
+    output = BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, index=False, sheet_name='Sheet1')
+    workbook = writer.book
+    worksheet = writer.sheets['Sheet1']
+    format1 = workbook.add_format({'num_format': '0.000'}) 
+    worksheet.set_column('A:A', None, format1)  
+    writer.save()
+    processed_data = output.getvalue()
+    return processed_data
 
 def download_button(object_to_download, download_filename, button_text):
     """
@@ -193,12 +207,15 @@ def main():
             classifier = load_classifier()
 
             data_to_download = description_predict_from_file(shows, model, preprocessing)
-
-            CSVButton = download_button(
-                data_to_download,
-                "File.csv",
-                "Download to CSV",
-            )
+            df_xlsx = to_excel(data_to_download)
+            st.download_button(label='📥 Download Current Result',
+                                            data=df_xlsx ,
+                                            file_name= 'df_test.xlsx')
+            # CSVButton = download_button(
+            #     data_to_download,
+            #     "File.csv",
+            #     "Download to CSV",
+            # )
 
     c100, c200, c300 = st.columns([1, 4, 1])
     with c200:
