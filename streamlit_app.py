@@ -64,7 +64,7 @@ def download_button(object_to_download, download_filename, button_text):
         pass
 
     elif isinstance(object_to_download, pd.DataFrame):
-        object_to_download = object_to_download.to_csv(index=False, encoding='cp1251')
+        object_to_download = object_to_download.to_csv(index=False, encoding="utf-8")
     # Try JSON encode for everything else
     else:
         object_to_download = json.dumps(object_to_download)
@@ -191,12 +191,24 @@ def main():
         icon, use_column_width=True, caption='AiHacks 2022'
     )
 
-    with st.sidebar.expander("Info"):
-        """
-        Developed by team fit_predict
+    st.sidebar.markdown(
+        '''
+        Info:
+        
+        Автоматическая система, основанная на алгоритмах машинного обучения (Fasttext)
+        
+        Данная система позволяет:
+        1. Сократить время для принятия решения декларантом
+        2. Уменьшить вероятность ошибки человека.
+
+        Возможно применение в двух сценариях - как для помощи декларанту, так и сотрудникам Таможенной Службы
+
+        Developed by team **fit_predict**
 
         2022
-        """
+        '''
+    )
+
     c10, c20, c30 = st.columns([1, 4, 1])
     with c20:
         st.title("Определение кода товара ТН ВЭД ЕАЭС")
