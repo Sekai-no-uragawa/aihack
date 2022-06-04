@@ -11,8 +11,6 @@ import base64
 import uuid
 import json
 from download_description import description_predict_from_file
-from io import BytesIO
-from pyxlsb import open_workbook as open_xlsb
 
 
 st.set_page_config(
