@@ -10,6 +10,7 @@ import re
 import base64
 import uuid
 import json
+from download_description import description_predict_from_file
 
 
 st.set_page_config(
@@ -189,8 +190,10 @@ def main():
             uploaded_file.seek(0)
             file_container.write(shows)
 
+            data_to_download = description_predict_from_file(shows, model, classifier, preprocessing())
+
             CSVButton = download_button(
-                shows,
+                data_to_download,
                 "File.csv",
                 "Download to CSV",
             )
