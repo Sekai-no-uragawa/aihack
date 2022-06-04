@@ -5,3 +5,4 @@ pymorphy2==0.9.1
 xlrd==2.0.1
 pandas==1.4.2
 pyxlsb==1.0.9
+XlsxWriter==3.0.3
