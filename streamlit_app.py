@@ -197,7 +197,7 @@ def main():
     c100, c200, c300 = st.columns([2, 4, 2])
     with c200:
         if uploaded_file is not None:
-            file_container = st.expander("Check your uploaded .csv")
+            file_container = st.expander("Просмотрите данные, что Вы загрузили в .csv")
             shows = pd.read_csv(uploaded_file, sep=';')
             uploaded_file.seek(0)
             file_container.write(shows)
@@ -217,12 +217,13 @@ def main():
                 "Download to CSV",
             )
         else:
-            st.info(
-                f"""
-                    👆 Загрузите .csv файл. Файл для примера: [for_test.csv](https://drive.google.com/file/d/1luxXwS7hRtCHDZLWG5pN2ybx1qrV2cxm/view?usp=sharing)
-                    """
-            )
-            st.stop()
+            with c2:
+                st.info(
+                    f"""
+                        👆 Загрузите .csv файл. Файл для примера: [for_test.csv](https://drive.google.com/file/d/1luxXwS7hRtCHDZLWG5pN2ybx1qrV2cxm/view?usp=sharing)
+                        """
+                )
+                st.stop()
 
     c100, c200, c300 = st.columns([1, 4, 1])
     with c200:
