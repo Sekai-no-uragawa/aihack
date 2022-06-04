@@ -143,6 +143,12 @@ def load_model():
 def load_classifier():
     return pd.read_excel('data/tnved-CIS-02.xls')
 
+@st.cache
+def load_code_text():
+    df_code = pd.read_csv('data\code_text.csv', index=False)
+    dict_code = df_code.set_index('code').T.to_dict('list')
+    return dict_code
+
 def preprocessing(x):
     get_nltk()
     morph = pymorphy2.MorphAnalyzer()
@@ -198,7 +204,10 @@ def main():
             for_print = []
             for label, prob in zip(*ans):
                 for_print.append([label[9:], round(prob,3)])
-            st.write(pd.DataFrame(for_print, columns=['Код', 'Точность']))    
+            dict_code = load_code_text()
+            df = pd.DataFrame(for_print, columns=['Код', 'Точность'])
+            df['Описание категории'] = df['Код'].map(dict_code)
+            st.write(df)    
     
     with c2:
         uploaded_file = st.file_uploader(
