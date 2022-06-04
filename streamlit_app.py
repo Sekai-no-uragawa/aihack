@@ -179,11 +179,12 @@ def main():
         ''')
     
     _, c1, c2, _= st.columns([1, 2, 2, 1])
+    
     with c1:
         title = st.text_area(
                 'Ввести описание товара: ',
             )
-
+        pred_button = st.button('Получить код')
         
     
     with c2:
@@ -194,8 +195,8 @@ def main():
         )
     
     c100, c200, c300 = st.columns([2, 4, 2])
-    with c200:
-        if uploaded_file is not None:
+    if uploaded_file is not None:
+        with c200:
             file_container = st.expander("Просмотрите данные, что Вы загрузили в .csv")
             shows = pd.read_csv(uploaded_file, sep=';')
             uploaded_file.seek(0)
@@ -215,20 +216,18 @@ def main():
                 "File.csv",
                 "Download to CSV",
             )
-        else:
-            with c2:
-                st.info(
-                    f"""
-                        👆 Загрузите .csv файл. Файл для примера: [for_test.csv](https://drive.google.com/file/d/1luxXwS7hRtCHDZLWG5pN2ybx1qrV2cxm/view?usp=sharing)
-                        """
-                )
-                st.stop()
-    with c1:
-        pred_button = st.button('Получить код')
-        
+    else:
+        with c2:
+            st.info(
+                f"""
+                    👆 Загрузите .csv файл. Файл для примера: [for_test.csv](https://drive.google.com/file/d/1luxXwS7hRtCHDZLWG5pN2ybx1qrV2cxm/view?usp=sharing)
+                    """
+            )
+            st.stop()
+         
     c100, c200, c300 = st.columns([1, 4, 1])
-    with c200:
-        if pred_button:
+    if pred_button:
+        with c200:
             filename = load_model()
             model = fasttext.load_model(filename)
             text_preproc = ' '.join(preprocessing(title))
