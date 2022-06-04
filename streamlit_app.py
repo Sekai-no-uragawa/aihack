@@ -186,7 +186,7 @@ st.markdown(
 def main():
     
     # Sidebar -- Image/Title
-    icon = Image.open("./utils/omic_learn.png")
+    icon = Image.open("data/1024px-Emblema_fts_2020.png")
     st.sidebar.image(
         icon, use_column_width=True, caption="OmicLearn " + report["omic_learn_version"]
     )
