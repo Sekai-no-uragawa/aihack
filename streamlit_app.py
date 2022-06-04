@@ -185,7 +185,20 @@ def main():
                 'Ввести описание товара: ',
             )
         pred_button = st.button('Получить код')
-        
+
+    c100, c200, c300 = st.columns([1, 4, 1])
+    if pred_button:
+        with c200:
+            filename = load_model()
+            model = fasttext.load_model(filename)
+            text_preproc = ' '.join(preprocessing(title))
+            ans = model.predict(text_preproc, k=5)
+
+            st.write('Возможные классификационные коды, в порядке убывания уверенности предсказания моделью')
+            for_print = []
+            for label, prob in zip(*ans):
+                for_print.append([label[9:], round(prob,3)])
+            st.write(pd.DataFrame(for_print, columns=['Код', 'Точность']))    
     
     with c2:
         uploaded_file = st.file_uploader(
@@ -225,19 +238,8 @@ def main():
             )
             st.stop()
          
-    c100, c200, c300 = st.columns([1, 4, 1])
-    if pred_button:
-        with c200:
-            filename = load_model()
-            model = fasttext.load_model(filename)
-            text_preproc = ' '.join(preprocessing(title))
-            ans = model.predict(text_preproc, k=5)
-
-            st.write('Возможные классификационные коды, в порядке убывания уверенности предсказания моделью')
-            for_print = []
-            for label, prob in zip(*ans):
-                for_print.append([label[9:], round(prob,3)])
-            st.write(pd.DataFrame(for_print, columns=['Код', 'Точность']))
+    
+    
             # cat = [i[9:].replace('_', '') for i in ans]
             
             # classifier = load_classifier()
