@@ -3,4 +3,4 @@ nltk==3.7
 pymorphy2==0.9.1
 streamlit==1.6.0
 xlrd==2.0.1
-pamdas==1.4.2
+pandas==1.4.2
