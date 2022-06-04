@@ -200,14 +200,14 @@ def main():
             text_preproc = ' '.join(preprocessing(title))
             ans = model.predict(text_preproc, k=5)
 
-            st.write('Возможные классификационные коды, в порядке убывания уверенности предсказания моделью')
+            st.subheader('Возможные классификационные коды, в порядке убывания уверенности предсказания моделью')
             for_print = []
             for label, prob in zip(*ans):
                 for_print.append([label[9:], round(prob,3)])
             dict_code = load_code_text()
             df = pd.DataFrame(for_print, columns=['Код', 'Точность'])
             df['Описание категории'] = df['Код'].map(dict_code)
-            st.dataframe(df, 400, 600)    
+            st.dataframe(df)    
     
     with c2:
         uploaded_file = st.file_uploader(
