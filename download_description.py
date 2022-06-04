@@ -1,3 +1,5 @@
+import pandas as pd
+
 def description_predict_from_file(df, model, preprocessing):
     '''docstring
     Функция получает датафрейм с описанием товара, обрабатывает каждое описание и выдает по нему
