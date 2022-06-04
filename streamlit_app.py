@@ -141,7 +141,7 @@ def load_model():
 
 @st.cache
 def load_classifier():
-    return pd.read_excel('tnved-CIS-02.xls')
+    return pd.read_excel('data/tnved-CIS-02.xls')
 
 def preprocessing(x):
     get_nltk()
