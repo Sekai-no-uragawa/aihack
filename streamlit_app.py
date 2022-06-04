@@ -64,7 +64,7 @@ def download_button(object_to_download, download_filename, button_text):
         pass
 
     elif isinstance(object_to_download, pd.DataFrame):
-        object_to_download = object_to_download.to_csv(index=False, encoding="utf-8")
+        object_to_download = object_to_download.to_csv(index=False, encoding="CP1252")
     # Try JSON encode for everything else
     else:
         object_to_download = json.dumps(object_to_download)
@@ -193,19 +193,17 @@ def main():
 
     st.sidebar.markdown(
         '''
-        Info:
-        
         Автоматическая система, основанная на алгоритмах машинного обучения (Fasttext)
-        
+
         Данная система позволяет:
         1. Сократить время для принятия решения декларантом
         2. Уменьшить вероятность ошибки человека.
 
-        Возможно применение в двух сценариях - как для помощи декларанту, так и сотрудникам Таможенной Службы
+        Возможно применение в двух сценариях - как для помощи декларанту, так и использование сотрудниками Таможенной Службы для проверки поступающих деклараций.
 
         Developed by team **fit_predict**
 
-        2022
+        2022 г.
         '''
     )
 
