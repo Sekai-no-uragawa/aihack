@@ -214,6 +214,13 @@ def main():
                 "File.csv",
                 "Download to CSV",
             )
+        else:
+            st.info(
+                f"""
+                    👆 Загрузите .csv файл. Файл для примера: [for_test.csv](https://github.com/Sekai-no-uragawa/aihack/blob/main/data/for_test.csv)
+                    """
+            )
+            st.stop()
 
     c100, c200, c300 = st.columns([1, 4, 1])
     with c200:
