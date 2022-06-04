@@ -11,6 +11,7 @@ import base64
 import uuid
 import json
 from download_description import description_predict_from_file
+from PIL import Image
 
 
 st.set_page_config(
@@ -184,6 +185,12 @@ st.markdown(
 
 def main():
     
+    # Sidebar -- Image/Title
+    icon = Image.open("./utils/omic_learn.png")
+    st.sidebar.image(
+        icon, use_column_width=True, caption="OmicLearn " + report["omic_learn_version"]
+    )
+
     with st.sidebar.expander("Info"):
         """
         Developed by team fit_predict
