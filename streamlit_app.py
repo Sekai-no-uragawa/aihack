@@ -184,8 +184,7 @@ def main():
                 'Ввести описание товара: ',
             )
 
-    with c1:
-        pred_button = st.button('Получить код')    
+        
     
     with c2:
         uploaded_file = st.file_uploader(
@@ -224,7 +223,9 @@ def main():
                         """
                 )
                 st.stop()
-
+    with c1:
+        pred_button = st.button('Получить код')
+        
     c100, c200, c300 = st.columns([1, 4, 1])
     with c200:
         if pred_button:
