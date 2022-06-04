@@ -217,7 +217,7 @@ def main():
         else:
             st.info(
                 f"""
-                    👆 Загрузите .csv файл. Файл для примера: [for_test.csv](https://github.com/Sekai-no-uragawa/aihack/blob/main/data/for_test.csv)
+                    👆 Загрузите .csv файл. Файл для примера: [for_test.csv](https://drive.google.com/file/d/1luxXwS7hRtCHDZLWG5pN2ybx1qrV2cxm/view?usp=sharing)
                     """
             )
             st.stop()
