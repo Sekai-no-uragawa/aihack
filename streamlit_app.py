@@ -216,7 +216,7 @@ def main():
             model = fasttext.load_model(filename)
             classifier = load_classifier()
 
-            data_to_download = description_predict_from_file(shows, model, classifier, preprocessing)
+            data_to_download = description_predict_from_file(shows, model, preprocessing)
 
             CSVButton = download_button(
                 data_to_download,
