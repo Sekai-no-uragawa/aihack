@@ -207,7 +207,7 @@ def main():
             dict_code = load_code_text()
             df = pd.DataFrame(for_print, columns=['Код', 'Точность'])
             df['Описание категории'] = df['Код'].map(dict_code)
-            st.write(df)    
+            st.dataframe(df)    
     
     with c2:
         uploaded_file = st.file_uploader(
