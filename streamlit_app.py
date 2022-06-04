@@ -76,49 +76,49 @@ def main():
     with c20:
         st.title("Определение кода товара ТН ВЭД ЕАЭС")
         st.write('Супер проект ...')
-        #c1, c2, c3 = st.columns([1, 4, 1])
+    
+    c1, c2 = st.columns([3, 3])
+    with c1:
         title = st.text_area(
                 'Ввести описание товара: ',
             )
 
-        #c1, c2, c3 = st.columns([1, 2, 1])
-        col1, col5 = st.columns([4,1])
-        with col5:
-            pred_button = st.button('Get Predict!')    
-        
-        
-        uploaded_file = st.file_uploader(
-        "",
-        key="1",
-        help="Drop file here",
-        )
+    with c2:
+        pred_button = st.button('Get Predict!')    
     
-        if uploaded_file is not None:
-            file_container = st.expander("Check your uploaded .csv")
-            shows = pd.read_csv(uploaded_file)
-            uploaded_file.seek(0)
-            file_container.write(shows)
+    
+    uploaded_file = st.file_uploader(
+    "",
+    key="1",
+    help="Drop file here",
+    )
 
-        if pred_button:
-            filename = load_model()
-            model = fasttext.load_model(filename)
-            text_preproc = ' '.join(preprocessing(title))
-            ans = model.predict(text_preproc, k=5)[0]
+    if uploaded_file is not None:
+        file_container = st.expander("Check your uploaded .csv")
+        shows = pd.read_csv(uploaded_file)
+        uploaded_file.seek(0)
+        file_container.write(shows)
 
-            st.write('А вот и предсказание (топ-5 по вероятности)')
-            
-            cat = [i[9:].replace('_', '') for i in ans]
-            
-            classifier = load_classifier()
-            description = classifier[classifier.TNVED.isin(cat)].FULL_TEXT.tolist()
-            while len(description) < 5:
-                description.append('unknown')
-            
-            st.write('1.', ans[0][9:], '- описание:', description[0])
-            st.write('2.', ans[1][9:], '- описание:', description[1])
-            st.write('3.', ans[2][9:], '- описание:', description[2])
-            st.write('4.', ans[3][9:], '- описание:', description[3])
-            st.write('5.', ans[4][9:], '- описание:', description[4])
+    if pred_button:
+        filename = load_model()
+        model = fasttext.load_model(filename)
+        text_preproc = ' '.join(preprocessing(title))
+        ans = model.predict(text_preproc, k=5)[0]
+
+        st.write('А вот и предсказание (топ-5 по вероятности)')
+        
+        cat = [i[9:].replace('_', '') for i in ans]
+        
+        classifier = load_classifier()
+        description = classifier[classifier.TNVED.isin(cat)].FULL_TEXT.tolist()
+        while len(description) < 5:
+            description.append('unknown')
+        
+        st.write('1.', ans[0][9:], '- описание:', description[0])
+        st.write('2.', ans[1][9:], '- описание:', description[1])
+        st.write('3.', ans[2][9:], '- описание:', description[2])
+        st.write('4.', ans[3][9:], '- описание:', description[3])
+        st.write('5.', ans[4][9:], '- описание:', description[4])
 
 if __name__ == '__main__':
     main()  
