@@ -209,11 +209,11 @@ def main():
             # st.download_button(label='📥 Download Current Result',
             #                                 data=df_xlsx ,
             #                                 file_name= 'df_test.xlsx')
-            # CSVButton = download_button(
-            #     data_to_download,
-            #     "File.csv",
-            #     "Download to CSV",
-            # )
+            CSVButton = download_button(
+                data_to_download,
+                "File.csv",
+                "Download to CSV",
+            )
 
     c100, c200, c300 = st.columns([1, 4, 1])
     with c200:
