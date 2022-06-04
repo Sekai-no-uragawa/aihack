@@ -168,19 +168,24 @@ def preprocessing(x):
     else:
         return []
 
-main_bg = "data/background.png"
-main_bg_ext = "png"
+def get_base64(bin_file):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
 
-st.markdown(
-    f"""
+def set_background(png_file):
+    bin_str = get_base64(png_file)
+    page_bg_img = '''
     <style>
-    .reportview-container {{
-        background: url(data:image/{main_bg_ext};base64,{base64.b64encode(open(main_bg, "rb").read()).decode()})
-    }}
+    .stApp {
+    background-image: url("data:image/png;base64,%s");
+    background-size: cover;
+    }
     </style>
-    """,
-    unsafe_allow_html=True
-)
+    ''' % bin_str
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
+set_background('./data/background.png')
 
 
 def main():
@@ -232,7 +237,7 @@ def main():
             text_preproc = ' '.join(preprocessing(title))
             ans = model.predict(text_preproc, k=5)
 
-            st.subheader('Возможные классификационные коды, в порядке убывания уверенности предсказания моделью')
+            st.subheader('Возможные классификационные коды, в порядке убывания уверенности модели')
             for_print = []
             for label, prob in zip(*ans):
                 for_print.append([label[9:], round(prob,3)])
