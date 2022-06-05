@@ -332,8 +332,11 @@ def page_custom():
             code, prob = model.predict(text_preproc, k=1)
             st.write(code, title_code)
             if code[0][9:].zfill(4) == title_code:
+                dict_code = load_code_text()
                 st.success('Код верен!')
                 st.write(f'Модель уверена на {round(prob[0], 4)*100}%')
+                st.write(f'Текстовое описание данной категории:')
+                dict_code[code[0][9:].zfill(4)]
             else:
                 ans = model.predict(text_preproc, k=3)
                 st.error('Код неверен!')
