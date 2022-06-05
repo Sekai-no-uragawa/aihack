@@ -330,7 +330,7 @@ def page_custom():
             model = fasttext.load_model(filename)
             text_preproc = ' '.join(preprocessing(title_text))
             code, prob = model.predict(text_preproc, k=1)
-            st.write(code, title_code)
+  
             if code[0][9:].zfill(4) == title_code:
                 dict_code = load_code_text()
                 st.success('Код верен!')
@@ -340,7 +340,6 @@ def page_custom():
             else:
                 ans = model.predict(text_preproc, k=3)
                 st.error('Код неверен!')
-
                 st.write('Возможные классификационные коды, в порядке убывания уверенности модели')
                 for_print = []
                 for label, prob in zip(*ans):
