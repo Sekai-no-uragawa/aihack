@@ -240,6 +240,7 @@ def page_declarant():
             classifier = load_classifier()
 
             data_to_download = description_predict_from_file(shows, model, preprocessing)
+            data_to_download
             # df_xlsx = to_excel(data_to_download)
             # st.download_button(label='📥 Download Current Result',
             #                                 data=df_xlsx ,
