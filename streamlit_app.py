@@ -163,7 +163,7 @@ def page_declarant():
     # Sidebar -- Image/Title
     icon = Image.open("data/1024px-Emblema_fts_2020.png")
     st.sidebar.image(
-        icon, use_column_width=True, caption='[hacks-ai.ru](https://hacks-ai.ru/) 2022'
+        icon, use_column_width=True, caption='hacks-ai.ru 2022'
     )
 
     st.sidebar.markdown(
@@ -262,7 +262,7 @@ def page_custom():
     # Sidebar -- Image/Title
     icon = Image.open("data/1024px-Emblema_fts_2020.png")
     st.sidebar.image(
-        icon, use_column_width=True, caption='[hacks-ai.ru](https://hacks-ai.ru/) 2022'
+        icon, use_column_width=True, caption='hacks-ai.ru 2022'
     )
 
     st.sidebar.markdown(
