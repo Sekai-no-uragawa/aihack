@@ -209,6 +209,8 @@ def page_declarant():
             ans = model.predict(text_preproc, k=5)
 
             st.subheader('Возможные классификационные коды, в порядке убывания уверенности модели')
+            st.write('Введенное описание:')
+            title
             for_print = []
             for label, prob in zip(*ans):
                 for_print.append([label[9:], round(prob,3)])
@@ -340,7 +342,7 @@ def page_custom():
                 for label, prob in zip(*ans):
                     for_print.append([label[9:], round(prob,3)])
                 dict_code = load_code_text()
-                df = pd.DataFrame(for_print, columns=['Код', 'Точность'])
+                df = pd.DataFrame(for_print, columns=['Код', 'Точность'], dtype={'Код': 'str'})
                 df['Описание категории'] = df['Код'].map(dict_code)
                 st.dataframe(df) 
 
