@@ -1,7 +1,7 @@
 from nbformat import write
 import streamlit as st
 import urllib.request
-#import fasttext
+import fasttext
 import pandas as pd
 from nltk.tokenize import word_tokenize
 import nltk
