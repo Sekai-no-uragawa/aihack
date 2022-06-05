@@ -227,13 +227,13 @@ def page_declarant():
             help="Drop file here",
         )
     
-    c100, c200, c300 = st.columns([2, 4, 2])
+    c100, c200, c300 = st.columns([1, 4, 1])
     if uploaded_file is not None:
         with c200:
-            file_container = st.expander("Просмотрите данные, что Вы загрузили в .csv")
+            #file_container = st.expander("Просмотрите данные, что Вы загрузили в .csv")
             shows = pd.read_csv(uploaded_file, sep=';')
             uploaded_file.seek(0)
-            file_container.write(shows)
+            #file_container.write(shows)
             
             filename = load_model()
             model = fasttext.load_model(filename)
