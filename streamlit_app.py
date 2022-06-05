@@ -335,15 +335,15 @@ def page_custom():
                 if round(prob[0], 4)*100 > 80:
                     dict_code = load_code_text()
                     st.success('Код верен!')
-                    st.write(f'Модель уверена на {round(prob[0], 4)*100}%')
+                    st.write(f'Модель уверена на {round(prob[0]*100, 3)}%')
                     st.write(f'Текстовое описание данной категории:')
                     dict_code[code[0][9:].zfill(4)]
                 else:
                     dict_code = load_code_text()
                     st.success('Код верен!')
                     st.write('Однако степень уверености < 80%. Возможно слишком короткое / нечеткое описание')
-                    st.write(f'Модель уверена на {round(prob[0], 4)*100}%')
-                    ans = model.predict(text_preproc, k=3)
+                    st.write(f'Модель уверена на {round(prob[0]*100, 3)}%')
+                    ans = model.predict(text_preproc, k=5)
                     st.write('Возможные классификационные коды, в порядке убывания уверенности модели')
                     for_print = []
                     for label, prob in zip(*ans):
