@@ -331,9 +331,9 @@ def page_custom():
             text_preproc = ' '.join(preprocessing(title_text))
             code, prob = model.predict(text_preproc, k=1)
             st.write(code, title_code)
-            if code[9:].zfill(4) == title_code:
+            if code[0][9:].zfill(4) == title_code:
                 st.success('Код верен!')
-                st.write(f'Модель уверена на {round(prob,4)*100}%')
+                st.write(f'Модель уверена на {round(prob[0], 4)*100}%')
             else:
                 ans = model.predict(text_preproc, k=3)
                 st.error('Код неверен!')
