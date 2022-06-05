@@ -329,11 +329,11 @@ def page_custom():
             filename = load_model()
             model = fasttext.load_model(filename)
             text_preproc = ' '.join(preprocessing(title_text))
-            ans = model.predict(text_preproc, k=1)
-
-            if ans[0] == title_code:
+            code, prob = model.predict(text_preproc, k=1)
+            
+            if code[9:] == title_code:
                 st.success('Код верен!')
-                st.write(f'Модель уверена на {round(ans[1],4)*100}%')
+                st.write(f'Модель уверена на {round(prob,4)*100}%')
             else:
                 ans = model.predict(text_preproc, k=3)
                 st.error('Код неверен!')
@@ -343,7 +343,8 @@ def page_custom():
                 for label, prob in zip(*ans):
                     for_print.append([label[9:], round(prob,3)])
                 dict_code = load_code_text()
-                df = pd.DataFrame(for_print, columns=['Код', 'Точность'], dtype={'Код': 'str'})
+                df = pd.DataFrame(for_print, columns=['Код', 'Точность'])
+                df['Код'] = df['Код'].apply('{:0>4}'.format)
                 df['Описание категории'] = df['Код'].map(dict_code)
                 st.dataframe(df) 
 
