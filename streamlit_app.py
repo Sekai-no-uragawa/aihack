@@ -1,6 +1,7 @@
+from nbformat import write
 import streamlit as st
 import urllib.request
-import fasttext
+#import fasttext
 import pandas as pd
 from nltk.tokenize import word_tokenize
 import nltk
@@ -157,7 +158,7 @@ def preprocessing(x):
         return []
 
 
-def main():
+def page_declarant():
     
     # Sidebar -- Image/Title
     icon = Image.open("data/1024px-Emblema_fts_2020.png")
@@ -183,11 +184,12 @@ def main():
 
     c10, c20, c30 = st.columns([1, 4, 1])
     with c20:
-        st.title("Определение кода товара ТН ВЭД ЕАЭС")
+        st.title("Помощник декларанта")
+        st.subheader('Определение кода товара ТН ВЭД ЕАЭС с помощью ИИ')
         st.write('''
-        Вы можете ввести описание вашего товара в поле слева и получить предполагаемый код из классификатора ВЭД.
+        Вы можете ввести описание вашего товара в поле слева и получить предполагаемый код из классификатора ВЭД. Решение будет полученно с помощью ИИ, обученного на более 4 миллионах строк данных поданных деклараций.
 
-        А также загрузить файл в формате .csv в окно справа и получить на выходе таблицу "Описание : код"
+        Также загрузить файл в формате .csv в окно справа и получить на выходе таблицу "Описание : код"
         ''')
     
     _, c1, c2, _= st.columns([1, 2, 2, 1])
@@ -252,21 +254,106 @@ def main():
                     """
             )
             st.stop()
-         
+
+def page_custom():
+    # Sidebar -- Image/Title
+    icon = Image.open("data/1024px-Emblema_fts_2020.png")
+    st.sidebar.image(
+        icon, use_column_width=True, caption='AiHacks 2022'
+    )
+
+    st.sidebar.markdown(
+        '''
+        Автоматическая система, основанная на алгоритмах машинного обучения (Fasttext)
+
+        Данная система позволяет:
+        1. Сократить время для принятия решения декларантом
+        2. Уменьшить вероятность ошибки человека.
+
+        Возможно применение в двух сценариях - как для помощи декларанту, так и использование сотрудниками Таможенной Службы для проверки поступающих деклараций.
+
+        Developed by team **fit_predict**
+
+        2022 г.
+        '''
+    )
+
+    c10, c20, c30 = st.columns([1, 4, 1])
+    with c20:
+        st.title("Помощник сотрудника Таможенной Службы")
+        st.subheader('Облегчение рутинной работы по проверке кодов ТН ВЭД')
+        st.write('''
+        Вы можете:
+        1. Ввести только код товара и быстро получить описание данной категории
+        2. Дополнительно ввести предоставленное *декларантом* описание и получить предсказание модели - правильно ли декларант указал код для этого товара.
+        Решение будет полученно с помощью ИИ, обученного на более 4 миллионах строк данных поданных деклараций.
+        В случае несовпадения вам будут предложены несколько вариантов правильных кодов, по убыванию уверености модели в результате
+        ''')
     
+    _, c1, c2, _= st.columns([1, 2, 2, 1])
     
-            # cat = [i[9:].replace('_', '') for i in ans]
-            
-            # classifier = load_classifier()
-            # description = classifier[classifier.TNVED.isin(cat)].FULL_TEXT.tolist()
-            # while len(description) < 5:
-            #     description.append('unknown')
-            
-            # st.write('1.', ans[0][9:], '- описание:', description[0])
-            # st.write('2.', ans[1][9:], '- описание:', description[1])
-            # st.write('3.', ans[2][9:], '- описание:', description[2])
-            # st.write('4.', ans[3][9:], '- описание:', description[3])
-            # st.write('5.', ans[4][9:], '- описание:', description[4])
+    with c1:
+        title_code = st.text_input(
+                'Четырехзначный код: ', 
+                max_chars = 4
+            )
+        code_exists = 0
+        if len(title_code) != 4:
+            code_button = st.button('Получить описание', disabled=True)
+        else:
+            code_button = st.button('Получить описание', disabled=False)
+           
+    c10, c20, c30 = st.columns([1, 4, 1])
+    with c20:
+        if code_button:
+            dict_code = load_code_text()
+            try:
+                st.write(dict_code[title_code])
+                code_exists = 1
+            except KeyError:
+                code_exists = 0
+                st.error('Не найдено')
+        
+        title_text = st.text_area(
+                'Текстовое описание товара: ',
+            )
+        if len(title_code) != 4 or title_text == '' or code_exists:
+            text_button = st.button('Проверить соответствие', disabled=True)
+        else:
+            text_button = st.button('Проверить соответствие', disabled=False)
+
+        if text_button:
+            filename = load_model()
+            model = fasttext.load_model(filename)
+            text_preproc = ' '.join(preprocessing(title_text))
+            ans = model.predict(text_preproc, k=1)
+
+            if ans[0] == title_code:
+                st.success('Код верен!')
+                st.write(f'Модель уверена на {round(ans[1],4)*100}%')
+            else:
+                ans = model.predict(text_preproc, k=3)
+                st.error('Код неверен!')
+
+                st.write('Возможные классификационные коды, в порядке убывания уверенности модели')
+                for_print = []
+                for label, prob in zip(*ans):
+                    for_print.append([label[9:], round(prob,3)])
+                dict_code = load_code_text()
+                df = pd.DataFrame(for_print, columns=['Код', 'Точность'])
+                df['Описание категории'] = df['Код'].map(dict_code)
+                st.dataframe(df) 
+
+
 
 if __name__ == '__main__':
-    main()  
+    
+    page_names_to_funcs = {
+        "Страница Декларанта": page_declarant,
+        "Страница Проверяющего": page_custom,
+    }
+
+    selected_page = st.sidebar.selectbox("Выбрать страницу", page_names_to_funcs.keys())
+    page_names_to_funcs[selected_page]()
+    
+
