@@ -117,23 +117,23 @@ def _max_width_():
     )
 _max_width_()
 
-@st.cache
+@st.experimental_memo
 def get_nltk():
     nltk.download('punkt')
     nltk.download('stopwords')
 
-@st.cache
+@st.experimental_memo
 def load_model():
     url = 'https://github.com/Sekai-no-uragawa/aihack/releases/download/v1.0.1/train_all_data_default_set.fasttext_model'
     filename = url.split('/')[-1]
     urllib.request.urlretrieve(url, filename)
     return filename
 
-@st.cache
+@st.experimental_memo
 def load_classifier():
     return pd.read_excel('data/tnved-CIS-02.xls')
 
-@st.cache
+@st.experimental_memo
 def load_code_text():
     df_code = pd.read_csv('data/code_text.csv', dtype={'code': 'str'})
     dict_code = df_code.set_index('code').T.to_dict('list')
